@@ -16,5 +16,11 @@ export class SidebarComponent {
     else this.mapService.greenZonesHide();
   }
 
+  @ViewChild('layer2') layer2: ElementRef | undefined;
+  layer2check():void {
+    if(this.layer2?.nativeElement.checked) this.mapService.pollusolDisplay();    
+    else this.mapService.pollusolHide();
+  }
+
 
 }
