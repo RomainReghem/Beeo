@@ -15,7 +15,7 @@
           </div>
     <h3>Sélection des calques</h3>
 
-    <input type="checkbox" id="layer1" name="layer1" value="bio" checked>
+    <input #layer1 (click)="layer1check()" type="checkbox" id="layer1" name="layer1" value="bio">
     <label for="layer1">Zones bios</label><br>
     <input type="checkbox" id="layer2" name="layer2" value="indus">
     <label for="layer2">Zones industrielles</label><br>
