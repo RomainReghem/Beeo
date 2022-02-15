@@ -7,7 +7,7 @@ import * as L from 'leaflet';
 })
 export class MapService {
 
-  greenData: string = 'https://api.jsonbin.io/b/620bbcc91b38ee4b33bc630f';
+  greenData: string = 'https://raw.githubusercontent.com/RomainReghem/Beeo/master/beeo/src/onlytarn.json';
   pollusolData:string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   greenZones = L.layerGroup();
   pollusolLayer = L.layerGroup();
