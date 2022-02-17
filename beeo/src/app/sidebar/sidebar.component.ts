@@ -22,5 +22,11 @@ export class SidebarComponent {
     else this.mapService.pollusolHide();
   }
 
+  @ViewChild('layer3') layer3: ElementRef | undefined;
+  layer3check():void {
+    if(this.layer3?.nativeElement.checked) this.mapService.inst_indusDisplay();    
+    else this.mapService.inst_indusHide();
+  }
+
 
 }

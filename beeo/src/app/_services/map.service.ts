@@ -8,15 +8,17 @@ import 'Leaflet.Deflate';
 })
 export class MapService {
 
-  myIcon = L.icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/2333/2333567.png',
+  pollusolIcon = L.icon({
+    iconUrl: 'https://tinyimg.io/i/oQxkY10.png',
     iconSize: [36, 36]
   });
 
   greenData: string = 'https://raw.githubusercontent.com/RomainReghem/Beeo/master/beeo/src/onlytarn.json';
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
+  inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
   greenZones = L.layerGroup();
-  pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.myIcon } });
+  pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.pollusolIcon } });
+  inst_indusLayer = L.layerGroup();
   //features = L.deflate({minSize:10});
   map;
 
@@ -44,9 +46,10 @@ export class MapService {
     };
   }
 
+
   drawPolygons(map: L.Map): void {
     this.map = map;
-    const marker = L.marker([43.924673107953865, 2.075675106215357]).addTo(map);
+    //const marker = L.marker([43.904753568818144,2.1377746548512513]).addTo(map);
     this.http.get(this.greenData).subscribe((res: any) => {
       for (const c of res.data) {
         if (c.geometry) {
@@ -57,11 +60,20 @@ export class MapService {
     });
 
     this.http.get(this.pollusolData).subscribe((res: any) => {
-      for (const c of res.data) {
-        console.log(c);
+      for (const c of res.data) {        
         let polygon = L.geoJSON(c, { style: this.styleRed }).addTo(this.pollusolLayer);
-        polygon.bindPopup("<center><h1>Zone polluée</h1><img style='width:100%;'src='https://cdn-icons-png.flaticon.com/512/2333/2333567.png'/></center>");
-        map.openPopup;
+        polygon.bindPopup("<center><h1>Zone polluée</h1><img style='width:100%;'src='https://tinyimg.io/i/IU9CV0y.png'/></center>");        
+      }
+    });
+
+    this.http.get(this.inst_indusData).subscribe((res: any) => {
+      for (const c of res.data) {
+        console.log(c.geometry);
+        let point = L.geoJSON(c.geometry,{pointToLayer:function(feature, latlng){return L.marker(latlng, {icon: L.icon({
+          iconUrl: 'https://i.imgur.com/SxMOwaA.png',
+          iconSize: [36, 36]
+        })})}}).addTo(this.inst_indusLayer);
+        point.bindPopup("<center><h1>Installation industrielle</h1><img style='width:50%;'src='https://i.imgur.com/SxMOwaA.png'/><p>Type d'industrie : " + c.properties.lib_naf+ "</p><p>Site classé " + c.properties.lib_seveso+ "</p><a target=_blank href='" + c.properties.url_fiche + "'>Cliquer pour plus d'infos<a></center>");        
       }
     });
 
@@ -82,5 +94,13 @@ export class MapService {
 
   pollusolHide(): void {
     this.pollusolLayer.removeFrom(this.map);
+  }
+
+  inst_indusDisplay(): void {
+    this.inst_indusLayer.addTo(this.map);
+  }
+
+  inst_indusHide(): void {
+    this.inst_indusLayer.removeFrom(this.map);
   }
 }
