@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-draw';
 import { MapService } from '../_services/map.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void{    
     this.initMap();
-    this.mapService.drawPolygons((this.map));
+    this.mapService.initmap((this.map));
   }
 
   private initMap(): void {
@@ -27,7 +28,11 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
+
+    //let drawControl = L.
   }
+
+  
 
   
 }

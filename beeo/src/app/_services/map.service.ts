@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as L from 'leaflet';
+//import * as L from 'leaflet';
+declare const L: any;
 import 'Leaflet.Deflate';
+import 'leaflet-draw';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +21,8 @@ export class MapService {
   greenZones = L.layerGroup();
   pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.pollusolIcon } });
   inst_indusLayer = L.layerGroup();
-  //features = L.deflate({minSize:10});
-  map;
-
-  constructor(private http: HttpClient) {
-
-  }
+  editableLayers = new L.FeatureGroup();
+  map:L.Map | undefined;
 
   style(feature) {
     return {
@@ -46,9 +44,64 @@ export class MapService {
     };
   }
 
+  customMarker = L.Icon.extend({
+    options: {
+      shadowUrl: null,
+      iconAnchor: new L.Point(12, 12),
+      iconSize: new L.Point(24, 24),
+      iconUrl: 'https://emassi.fr/wp-content/uploads/2017/10/Map-Marker-PNG-File.png'
+    }
+  });
 
-  drawPolygons(map: L.Map): void {
+  options = {
+    position: 'topright',
+    draw: {
+      polyline: {
+        shapeOptions: {
+          color: '#f357a1',
+          weight: 10
+        }
+      },
+      polygon: {
+        allowIntersection: false, // Restricts shapes to simple polygons
+        drawError: {
+          color: '#e1e100', // Color the shape will turn when intersects
+          message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+        },
+        shapeOptions: {
+          color: '#bada55'
+        }
+      },
+      circle: false, // Turns off this drawing tool
+      rectangle: {
+        shapeOptions: {
+          clickable: false
+        }
+      },
+      marker: {
+        icon: new this.customMarker()
+      }
+    },
+    edit: {
+      featureGroup: this.editableLayers, //REQUIRED!!
+      remove: false
+    }
+  };
+
+  drawControl = new L.Control.Draw(this.options);  
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  initmap(map):void{
     this.map = map;
+    this.drawPolygons();
+    map.addLayer(this.editableLayers);
+    map.addControl(this.drawControl);    
+  }
+
+  drawPolygons(): void {
     //const marker = L.marker([43.904753568818144,2.1377746548512513]).addTo(map);
     this.http.get(this.greenData).subscribe((res: any) => {
       for (const c of res.data) {
@@ -60,20 +113,26 @@ export class MapService {
     });
 
     this.http.get(this.pollusolData).subscribe((res: any) => {
-      for (const c of res.data) {        
+      for (const c of res.data) {
         let polygon = L.geoJSON(c, { style: this.styleRed }).addTo(this.pollusolLayer);
-        polygon.bindPopup("<center><h1>Zone polluée</h1><img style='width:100%;'src='https://tinyimg.io/i/IU9CV0y.png'/></center>");        
+        polygon.bindPopup("<center><h1>Zone polluée</h1><img style='width:100%;'src='https://tinyimg.io/i/IU9CV0y.png'/></center>");
       }
     });
 
     this.http.get(this.inst_indusData).subscribe((res: any) => {
       for (const c of res.data) {
         console.log(c.geometry);
-        let point = L.geoJSON(c.geometry,{pointToLayer:function(feature, latlng){return L.marker(latlng, {icon: L.icon({
-          iconUrl: 'https://i.imgur.com/SxMOwaA.png',
-          iconSize: [36, 36]
-        })})}}).addTo(this.inst_indusLayer);
-        point.bindPopup("<center><h1>Installation industrielle</h1><img style='width:50%;'src='https://i.imgur.com/SxMOwaA.png'/><p>Type d'industrie : " + c.properties.lib_naf+ "</p><p>Site classé " + c.properties.lib_seveso+ "</p><a target=_blank href='" + c.properties.url_fiche + "'>Cliquer pour plus d'infos<a></center>");        
+        let point = L.geoJSON(c.geometry, {
+          pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+              icon: L.icon({
+                iconUrl: 'https://i.imgur.com/SxMOwaA.png',
+                iconSize: [36, 36]
+              })
+            })
+          }
+        }).addTo(this.inst_indusLayer);
+        point.bindPopup("<center><h1>Installation industrielle</h1><img style='width:50%;'src='https://i.imgur.com/SxMOwaA.png'/><p>Type d'industrie : " + c.properties.lib_naf + "</p><p>Site classé " + c.properties.lib_seveso + "</p><a target=_blank href='" + c.properties.url_fiche + "'>Cliquer pour plus d'infos<a></center>");
       }
     });
 
