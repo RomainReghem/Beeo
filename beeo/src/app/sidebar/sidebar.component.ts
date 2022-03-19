@@ -9,6 +9,8 @@ import { ElementRef, ViewChild } from '@angular/core';
 })
 export class SidebarComponent {
 
+  n:number = 3000;
+
   constructor(private mapService: MapService){}
   @ViewChild('layer1') layer1: ElementRef | undefined;
   layer1check():void {
@@ -33,6 +35,16 @@ export class SidebarComponent {
     else this.mapService.farmsHide();
   }
 
+  @ViewChild('range') range: ElementRef | undefined;
+  rangeChanged(event):void{
+    if(this.range)
+    //console.log(event.target.value);
+    this.n = event.target.value;
+    this.mapService.rangeChangedByUser(this.n);
+  }
 
+  reset():void{
+    this.mapService.resetUserLayer();
+  }
 
 }

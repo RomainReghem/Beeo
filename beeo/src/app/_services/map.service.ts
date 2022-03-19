@@ -19,7 +19,8 @@ export class MapService {
     iconSize: [36, 36]
   });
 
-  greenData: string = 'https://raw.githubusercontent.com/RomainReghem/Beeo/master/beeo/src/onlytarn.json';
+  userRange:number = 3000;
+  greenData: string = '../../assets/onlytarn.json';
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
   farmsData: string = 'https://api.jsonbin.io/b/6235204a7caf5d67836d09b7'
@@ -27,9 +28,10 @@ export class MapService {
   pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.pollusolIcon } });
   inst_indusLayer = L.layerGroup();
   editableLayers = new L.FeatureGroup();
-  farmsLayer= L.layerGroup();
+  farmsLayer = L.layerGroup();
+  userLayer = new L.layerGroup();
 
-  map:L.Map | undefined;
+  map: L.Map | undefined;
 
   style(feature) {
     return {
@@ -60,52 +62,63 @@ export class MapService {
     }
   });
 
-  options = {
-    position: 'topright',
-    draw: {
-      polyline: {
-        shapeOptions: {
-          color: '#f357a1',
-          weight: 10
-        }
-      },
-      polygon: {
-        allowIntersection: false, // Restricts shapes to simple polygons
-        drawError: {
-          color: '#e1e100', // Color the shape will turn when intersects
-          message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-        },
-        shapeOptions: {
-          color: '#bada55'
-        }
-      },
-      circle: false, // Turns off this drawing tool
-      rectangle: {
-        shapeOptions: {
-          clickable: false
-        }
-      },
-      marker: {
-        icon: new this.customMarker()
-      }
-    },
-    edit: {
-      featureGroup: this.editableLayers, //REQUIRED!!
-      remove: false
-    }
-  };
+  // options = {
+  //   position: 'topright',
+  //   draw: {
+  //     polyline: {
+  //       shapeOptions: {
+  //         color: '#f357a1',
+  //         weight: 10
+  //       }
+  //     },
+  //     polygon: {
+  //       allowIntersection: false, // Restricts shapes to simple polygons
+  //       drawError: {
+  //         color: '#e1e100', // Color the shape will turn when intersects
+  //         message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+  //       },
+  //       shapeOptions: {
+  //         color: '#bada55'
+  //       }
+  //     },
+  //     circle: false, // Turns off this drawing tool
+  //     rectangle: {
+  //       shapeOptions: {
+  //         clickable: false
+  //       }
+  //     },
+  //     marker: {
+  //       icon: new this.customMarker()
+  //     }
+  //   },
+  //   edit: {
+  //     featureGroup: this.editableLayers, //REQUIRED!!
+  //     remove: false
+  //   }
+  // };
 
-  drawControl = new L.Control.Draw(this.options);  
+  // drawControl = new L.Control.Draw(this.options);  
 
   constructor(private http: HttpClient) {
 
   }
 
-  initmap(map):void{
+  initmap(map): void {
     this.map = map;
     this.drawPolygons();
     map.addLayer(this.editableLayers);
-    map.addControl(this.drawControl);    
+    //map.addControl(this.drawControl);   
+    map.on('click', (e) => {
+      let marker = new  L.marker(e.latlng, {
+        icon: L.icon({
+          iconUrl: 'https://emassi.fr/wp-content/uploads/2017/10/Map-Marker-PNG-File.png',
+          iconSize: [12, 12]
+        })
+      }).addTo(this.userLayer);
+      L.circle(e.latlng, {radius: this.userRange}).addTo(this.userLayer).addTo(this.userLayer);
+    });
+    this.userLayer.addTo(map);
+
   }
 
   drawPolygons(): void {
@@ -154,13 +167,12 @@ export class MapService {
             })
           }
         }).addTo(this.farmsLayer);
-        point1.bindPopup("<center><h1>Fermes</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville +"<p> Address: " + c.properties.Address +"</p>"+"<p> Produits: " + c.properties.Produits +"</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>Cliquer pour Direction<a></center>");
+        point1.bindPopup("<center><h1>Fermes</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Address: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>Cliquer pour Direction<a></center>");
       }
     });
-    
-
-
   }
+
+
 
   greenZonesDisplay(): void {
     this.greenZones.addTo(this.map);
@@ -180,7 +192,7 @@ export class MapService {
 
   inst_indusDisplay(): void {
     this.inst_indusLayer.addTo(this.map);
-    
+
   }
 
   inst_indusHide(): void {
@@ -193,5 +205,13 @@ export class MapService {
   farmsHide(): void {
     this.farmsLayer.removeFrom(this.map);
   }
-  
+
+  rangeChangedByUser(n):void{
+    this.userRange = n;
+  }
+
+  resetUserLayer():void{
+    this.userLayer.clearLayers();
+    }
+
 }
