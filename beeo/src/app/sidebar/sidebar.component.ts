@@ -27,6 +27,12 @@ export class SidebarComponent {
     if(this.layer3?.nativeElement.checked) this.mapService.inst_indusDisplay();    
     else this.mapService.inst_indusHide();
   }
+  @ViewChild('layer4') layer4: ElementRef | undefined;
+  layer4check():void {
+    if(this.layer4?.nativeElement.checked) this.mapService.farmsDisplay();    
+    else this.mapService.farmsHide();
+  }
+
 
 
 }

@@ -14,14 +14,21 @@ export class MapService {
     iconUrl: 'https://tinyimg.io/i/oQxkY10.png',
     iconSize: [36, 36]
   });
+  farmsIcon = L.icon({
+    iconUrl: 'https://tinyimg.io/i/qfHYyxS.png',
+    iconSize: [36, 36]
+  });
 
   greenData: string = 'https://raw.githubusercontent.com/RomainReghem/Beeo/master/beeo/src/onlytarn.json';
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
+  farmsData: string = 'https://api.jsonbin.io/b/6235204a7caf5d67836d09b7'
   greenZones = L.layerGroup();
   pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.pollusolIcon } });
   inst_indusLayer = L.layerGroup();
   editableLayers = new L.FeatureGroup();
+  farmsLayer= L.layerGroup();
+
   map:L.Map | undefined;
 
   style(feature) {
@@ -121,7 +128,7 @@ export class MapService {
 
     this.http.get(this.inst_indusData).subscribe((res: any) => {
       for (const c of res.data) {
-        console.log(c.geometry);
+        // console.log(c.geometry);
         let point = L.geoJSON(c.geometry, {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
@@ -135,6 +142,22 @@ export class MapService {
         point.bindPopup("<center><h1>Installation industrielle</h1><img style='width:50%;'src='https://i.imgur.com/SxMOwaA.png'/><p>Type d'industrie : " + c.properties.lib_naf + "</p><p>Site classé " + c.properties.lib_seveso + "</p><a target=_blank href='" + c.properties.url_fiche + "'>Cliquer pour plus d'infos<a></center>");
       }
     });
+    this.http.get(this.farmsData).subscribe((res: any) => {
+      for (const c of res.data) {
+        let point1 = L.geoJSON(c.geometry, {
+          pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+              icon: L.icon({
+                iconUrl: 'https://tinyimg.io/i/qfHYyxS.png',
+                iconSize: [36, 36]
+              })
+            })
+          }
+        }).addTo(this.farmsLayer);
+        point1.bindPopup("<center><h1>Fermes</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville +"<p> Address: " + c.properties.Address +"</p>"+"<p> Produits: " + c.properties.Produits +"</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>Cliquer pour Direction<a></center>");
+      }
+    });
+    
 
 
   }
@@ -157,9 +180,18 @@ export class MapService {
 
   inst_indusDisplay(): void {
     this.inst_indusLayer.addTo(this.map);
+    
   }
 
   inst_indusHide(): void {
     this.inst_indusLayer.removeFrom(this.map);
   }
+  farmsDisplay(): void {
+    this.farmsLayer.addTo(this.map);
+  }
+
+  farmsHide(): void {
+    this.farmsLayer.removeFrom(this.map);
+  }
+  
 }

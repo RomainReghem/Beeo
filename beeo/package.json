@@ -18,6 +18,7 @@
     "@angular/platform-browser": "~13.1.0",
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
+    "json-server": "^0.17.0",
     "leaflet": "1.7.1",
     "leaflet-ajax": "^2.1.0",
     "leaflet-draw": "^1.0.4",
