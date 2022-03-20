@@ -188,7 +188,7 @@ export class MapService {
             })
           }
         }).addTo(this.riversLayer);
-        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='https://tinyimg.io/i/s4mSpp6.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat + "</p>");
+        point1.bindPopup("<center><h1>Rivière</h1><img style='width:50%;'src='https://tinyimg.io/i/s4mSpp6.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat +"  "+ this.calculateRiverNote(c.properties.Resultat) + "</p>");
       }
     });
   }
@@ -241,5 +241,27 @@ export class MapService {
   resetUserLayer():void{
     this.userLayer.clearLayers();
     }
+    calculateRiverNote(note): string {
+      let noteDiv=""
+      if (note >= 17){
+        noteDiv = "<span class='noteDiv' style='background-color:rgb(113, 230, 253)';>Très Bonne</div>"
+      }
+      if (note < 17 && 14.5<= note){
+        noteDiv = "<span class='noteDiv' style='background-color:rgb(69, 231, 118)';>Bonne</div>"
+      }
+      if (note < 14.5 && 10.5<= note){
+        noteDiv = "<span class='noteDiv' style='background-color:yellow';>Moyenne</div>"
+      }
+      if (note < 10.5 && 6<= note){
+        noteDiv = "<span class='noteDiv' style='background-color:orange';>Médiocre</div>"
+      }
+      if (note < 6){
+        noteDiv = "<span class='noteDiv' style='background-color:red';>Mauvaise</div>"
+      }
+      return noteDiv;
+
+    }
 
 }
+
+
