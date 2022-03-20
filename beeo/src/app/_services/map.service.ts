@@ -24,7 +24,7 @@ export class MapService {
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
   farmsData: string = '../../assets/farmsData.json'
-  riversData: string = '../../assets/riversData.json'
+  riversData: string = '../../assets/riversDataTarn.json'
   greenZones = L.layerGroup();
   pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.pollusolIcon } });
   inst_indusLayer = L.layerGroup();
