@@ -34,6 +34,11 @@ export class SidebarComponent {
     if(this.layer4?.nativeElement.checked) this.mapService.farmsDisplay();    
     else this.mapService.farmsHide();
   }
+  @ViewChild('layer5') layer5: ElementRef | undefined;
+  layer5check():void {
+    if(this.layer5?.nativeElement.checked) this.mapService.riversDisplay();    
+    else this.mapService.riversHide();
+  }
 
   @ViewChild('range') range: ElementRef | undefined;
   rangeChanged(event):void{

@@ -23,12 +23,14 @@ export class MapService {
   greenData: string = '../../assets/onlytarn.json';
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
-  farmsData: string = 'https://api.jsonbin.io/b/6235204a7caf5d67836d09b7'
+  farmsData: string = '../../assets/farmsData.json'
+  riversData: string = '../../assets/riversData.json'
   greenZones = L.layerGroup();
   pollusolLayer = L.deflate({ minSize: 100, markerOptions: { icon: this.pollusolIcon } });
   inst_indusLayer = L.layerGroup();
   editableLayers = new L.FeatureGroup();
   farmsLayer = L.layerGroup();
+  riversLayer = L.layerGroup();
   userLayer = new L.layerGroup();
 
   map: L.Map | undefined;
@@ -167,7 +169,26 @@ export class MapService {
             })
           }
         }).addTo(this.farmsLayer);
-        point1.bindPopup("<center><h1>Fermes</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Address: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>Cliquer pour Direction<a></center>");
+        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Address: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>Cliquer pour Direction<a></center>");
+      }
+    });
+
+
+
+
+    this.http.get(this.riversData).subscribe((res: any) => {
+      for (const c of res.data) {
+        let point1 = L.geoJSON(c.geometry, {
+          pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+              icon: L.icon({
+                iconUrl: 'https://tinyimg.io/i/s4mSpp6.png',
+                iconSize: [36, 36]
+              })
+            })
+          }
+        }).addTo(this.riversLayer);
+        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='https://tinyimg.io/i/s4mSpp6.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat + "</p>");
       }
     });
   }
@@ -204,6 +225,13 @@ export class MapService {
 
   farmsHide(): void {
     this.farmsLayer.removeFrom(this.map);
+  }
+  riversDisplay(): void {
+    this.riversLayer.addTo(this.map);
+  }
+
+  riversHide(): void {
+    this.riversLayer.removeFrom(this.map);
   }
 
   rangeChangedByUser(n):void{

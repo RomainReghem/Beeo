@@ -10,33 +10,86 @@
   </p>
 
   <div class="slidecontainer">
-    <input #range (input)="rangeChanged($event)" type="range" min="1000" max="6000" value="3000" class="slider" id="myRange" />
-    <p>Rayon de butinage : <span #number>{{n}}</span> mètres (cliquer sur la carte pour placer une zone de ce rayon)</p>
+    <input
+      #range
+      (input)="rangeChanged($event)"
+      type="range"
+      min="1000"
+      max="6000"
+      value="3000"
+      class="slider"
+      id="myRange"
+    />
+    <p>
+      Rayon de butinage : <span #number>{{ n }}</span> mètres (cliquer sur la
+      carte pour placer une zone de ce rayon)
+    </p>
     <button (click)="reset()">reset</button>
   </div>
   <h3>Sélection des calques</h3>
 
-  <input #layer1 (click)="layer1check()" type="checkbox" id="layer1" name="layer1" value="bio" />
+  <input
+    #layer1
+    (click)="layer1check()"
+    type="checkbox"
+    id="layer1"
+    name="layer1"
+    value="bio"
+  />
   <label for="layer1">Zones bios</label><br />
   <p class="LayerDescription">
     Correspond aux parcelles en Agriculture Biologique (AB) déclarées à la PAC
   </p>
-  <input #layer2 (click)="layer2check()" type="checkbox" id="layer2" name="layer2" value="indus" />
+  <input
+    #layer2
+    (click)="layer2check()"
+    type="checkbox"
+    id="layer2"
+    name="layer2"
+    value="indus"
+  />
   <label for="layer2">Zones polluées</label><br />
   <p class="LayerDescription">
     Correspond aux sites et sols pollués (ou potentiellement pollués) appelant
     une action des pouvoirs publics, à titre préventif ou curatif (ex BASOL).
   </p>
-  <input #layer3 (click)="layer3check()" type="checkbox" id="layer3" name="layer3" value="insectes" />
+  <input
+    #layer3
+    (click)="layer3check()"
+    type="checkbox"
+    id="layer3"
+    name="layer3"
+    value="insectes"
+  />
   <label for="layer3">Installations industrielles</label><br />
   <p class="LayerDescription">
     Correspond aux Installations classées pour la protection de l'environnement
     (ICPE) soumises à autorisation ou à enregistrement (en construction, en
     fonctionnement ou en cessation d'activité)
   </p>
-  <input #layer4 (click)="layer4check()" type="checkbox" id="layer4" name="layer4" value="ferms" />
+  <input
+    #layer4
+    (click)="layer4check()"
+    type="checkbox"
+    id="layer4"
+    name="layer4"
+    value="ferms"
+  />
   <label for="layer4">Fermes Bio</label><br />
   <p class="LayerDescription">
     Correspond aux fermes bio avec leur emplacement exact
+  </p>
+  <input
+    #layer5
+    (click)="layer5check()"
+    type="checkbox"
+    id="layer5"
+    name="layer5"
+    value="Rivers"
+  />
+  <label for="layer4">Rivières</label><br />
+  <p class="LayerDescription">
+    Correspond aux qualité des rivières avec l'emplacement de la station de
+    mesure.
   </p>
 </div>
