@@ -52,4 +52,10 @@ export class SidebarComponent {
     this.mapService.resetUserLayer();
   }
 
+  formDisplay():void{
+    let form = document.querySelector(".form");
+    //@ts-ignore
+    form.classList.toggle("active")
+  }
+
 }

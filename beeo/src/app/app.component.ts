@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
+  formDisplay():void{
+    let form = document.querySelector(".form");
+    //@ts-ignore
+    form.classList.toggle("active")
+  }
 }
