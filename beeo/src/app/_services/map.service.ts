@@ -20,7 +20,7 @@ export class MapService {
   });
 
   userRange:number = 3000;
-  greenData: string = '../../assets/onlytarn.json';
+  greenData: string = '../../assets/greenZonesTarnFull.json';
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
   farmsData: string = '../../assets/farmsData.json'
@@ -169,7 +169,7 @@ export class MapService {
             })
           }
         }).addTo(this.farmsLayer);
-        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Address: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>Cliquer pour Direction<a></center>");
+        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Adresse: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>lien maps<a></center>");
       }
     });
 
