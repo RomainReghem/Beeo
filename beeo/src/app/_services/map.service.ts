@@ -19,7 +19,7 @@ export class MapService {
     iconSize: [36, 36]
   });
 
-  userRange:number = 3000;
+  userRange:number = 1000;
   greenData: string = '../../assets/greenZonesTarnFull.json';
   pollusolData: string = 'https://api.jsonbin.io/b/620bc6fcca70c44b6e99153b';
   inst_indusData: string = 'https://api.jsonbin.io/b/620e8f741b38ee4b33bfed2b/1';
@@ -32,6 +32,8 @@ export class MapService {
   farmsLayer = L.layerGroup();
   riversLayer = L.layerGroup();
   userLayer = new L.layerGroup();
+  
+  
 
   map: L.Map | undefined;
 
@@ -188,7 +190,7 @@ export class MapService {
             })
           }
         }).addTo(this.riversLayer);
-        point1.bindPopup("<center><h1>Rivière</h1><img style='width:50%;'src='https://tinyimg.io/i/s4mSpp6.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat +"  "+ this.calculateRiverNote(c.properties.Resultat) + "</p>");
+        point1.bindPopup("<center><h1>Rivière</h1><img style='width:50%;'src='https://tinyimg.io/i/s4mSpp6.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat +"  "+ this.calculateRiverNote(c.properties.Resultat) + "</p>" + "<p> <a href='http://adour-garonne.eaufrance.fr'>Ressource</a></p>");
       }
     });
   }
