@@ -37,6 +37,8 @@ export class MapService {
 
   map: L.Map | undefined;
 
+  
+
   style(feature) {
     return {
       fillColor: "#25633D",
@@ -195,6 +197,14 @@ export class MapService {
     });
   }
 
+  addMarker(e): void{
+    // Add marker to map at click location; add popup window
+    var newMarker = new L.marker(e).addTo(Map);
+    }
+  
+
+  
+
 
 
   greenZonesDisplay(): void {
@@ -263,6 +273,7 @@ export class MapService {
       return noteDiv;
 
     }
+    
 
 }
 
