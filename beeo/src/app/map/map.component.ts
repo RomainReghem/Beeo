@@ -44,6 +44,7 @@ export class MapComponent implements AfterViewInit {
       // check if the user denied geolocation, or if there was any other problem
       if (error.code == error.PERMISSION_DENIED) {
           alert('Geolocation has been disabled on this page, please review your browser\'s parameters');
+          this.map.setView([43.606214,2.241295], 11)
       } else {
           alert('Unable to find your position, try again later.');
       }
