@@ -11,13 +11,10 @@ import 'leaflet-draw';
 export class MapService {
 
   pollusolIcon = L.icon({
-    iconUrl: 'https://tinyimg.io/i/oQxkY10.png',
-    iconSize: [36, 36]
+    iconUrl: '../../assets/pollu.png',
+    iconSize: [36, 42]
   });
-  farmsIcon = L.icon({
-    iconUrl: 'https://tinyimg.io/i/qfHYyxS.png',
-    iconSize: [36, 36]
-  });
+  
 
   userRange:number = 1000;
   greenData: string = '../../assets/greenZonesTarnFull.json';
@@ -141,7 +138,7 @@ export class MapService {
     this.http.get(this.pollusolData).subscribe((res: any) => {
       for (const c of res.data) {
         let polygon = L.geoJSON(c, { style: this.styleRed }).addTo(this.pollusolLayer);
-        polygon.bindPopup("<center><h1>Zone polluée</h1><img style='width:100%;'src='https://tinyimg.io/i/IU9CV0y.png'/></center>");
+        polygon.bindPopup("<center><h1>Zone polluée</h1><img style='width:100%;'src='../../assets/pollu1.png'/></center>");
       }
     });
 
@@ -152,13 +149,13 @@ export class MapService {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
               icon: L.icon({
-                iconUrl: 'https://i.imgur.com/SxMOwaA.png',
-                iconSize: [36, 36]
+                iconUrl: '../../assets/indus.png',
+                iconSize: [36, 42]
               })
             })
           }
         }).addTo(this.inst_indusLayer);
-        point.bindPopup("<center><h1>Installation industrielle</h1><img style='width:50%;'src='https://i.imgur.com/SxMOwaA.png'/><p>Type d'industrie : " + c.properties.lib_naf + "</p><p>Site classé " + c.properties.lib_seveso + "</p><a target=_blank href='" + c.properties.url_fiche + "'>Cliquer pour plus d'infos<a></center>");
+        point.bindPopup("<center><h1>Installation industrielle</h1><img style='width:50%;'src='../../assets/indus1.png'/><p>Type d'industrie : " + c.properties.lib_naf + "</p><p>Site classé " + c.properties.lib_seveso + "</p><a target=_blank href='" + c.properties.url_fiche + "'>Cliquer pour plus d'infos<a></center>");
       }
     });
     this.http.get(this.farmsData).subscribe((res: any) => {
@@ -167,13 +164,13 @@ export class MapService {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
               icon: L.icon({
-                iconUrl: 'https://tinyimg.io/i/qfHYyxS.png',
-                iconSize: [36, 36]
+                iconUrl: '../../assets/farm.png',
+                iconSize: [36, 42]
               })
             })
           }
         }).addTo(this.farmsLayer);
-        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='https://tinyimg.io/i/96r0nxA.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Adresse: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>lien maps<a></center>");
+        point1.bindPopup("<center><h1>Ferme</h1><img style='width:50%;'src='../../assets/farm1.png'/><p>Nom : " + c.properties.Nom + "</p><p>Ville " + c.properties.Ville + "<p> Adresse: " + c.properties.Address + "</p>" + "<p> Produits: " + c.properties.Produits + "</p>" + "</p><a target=_blank href='" + c.properties.Location + "'>lien maps<a></center>");
       }
     });
 
@@ -186,13 +183,13 @@ export class MapService {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
               icon: L.icon({
-                iconUrl: 'https://tinyimg.io/i/s4mSpp6.png',
-                iconSize: [36, 36]
+                iconUrl: '../../assets/river.png',
+                iconSize: [36, 42]
               })
             })
           }
         }).addTo(this.riversLayer);
-        point1.bindPopup("<center><h1>Rivière</h1><img style='width:50%;'src='https://tinyimg.io/i/s4mSpp6.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat +"  "+ this.calculateRiverNote(c.properties.Resultat) + "</p>" + "<p> <a href='http://adour-garonne.eaufrance.fr'>Ressource</a></p>");
+        point1.bindPopup("<center><h1>Rivière</h1><img style='width:50%;'src='../../assets/river1.png'/><p>Libelle : " + c.properties.Libelle + "</p><p>Commune:  " + c.properties.Commune + "<p> Localisation: " + c.properties.Localisation + "</p>" + "<p> Resultat: " + c.properties.Resultat +"  "+ this.calculateRiverNote(c.properties.Resultat) + "</p>" + "<p> <a href='http://adour-garonne.eaufrance.fr'>Ressource</a></p>");
       }
     });
   }
