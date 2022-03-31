@@ -6,13 +6,16 @@
   </p>
 
   <div class="slidecontainer">
+    <h3>Placer un marqueur</h3>
     <input #range (input)="rangeChanged($event)" type="range" min="1000" max="6000" value="3000" class="slider"
       id="myRange" />
     <p>
-      Rayon de butinage : <span #number>{{ n }}</span> mètres (cliquer sur la
-      carte pour placer une zone de ce rayon)
+      Rayon de butinage : <span #number>{{ n }}</span> mètres ({{pMsg}})
     </p>
-    <button (click)="reset()">Reset les marqueurs</button>
+    <div id="slideButtonsContainer">
+    <button (click)="activateMarkers()"><img src="../../assets/marker.png"><span>{{markerMsg}}</span></button>
+    <button (click)="reset()"><img src="../../assets/cross.png">Reset</button>
+  </div>
   </div><br>
   <h3>Sélection des calques</h3>
 
@@ -49,5 +52,5 @@
     mesure.
   </p>
 
-  <button (click)="formDisplay()">Afficher le questionnaire</button>
+  <button id="questionnaire" (click)="formDisplay()">Afficher le questionnaire</button>
 </div>

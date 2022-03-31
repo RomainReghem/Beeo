@@ -29,6 +29,8 @@ export class MapService {
   farmsLayer = L.layerGroup();
   riversLayer = L.layerGroup();
   userLayer = new L.layerGroup();
+
+  areMarkersActivated = false;
   
   
 
@@ -112,6 +114,7 @@ export class MapService {
     map.addLayer(this.editableLayers);
     //map.addControl(this.drawControl);   
     map.on('click', (e) => {
+      if(this.areMarkersActivated){
       let marker = new  L.marker(e.latlng, {
         icon: L.icon({
           iconUrl: 'https://emassi.fr/wp-content/uploads/2017/10/Map-Marker-PNG-File.png',
@@ -119,7 +122,7 @@ export class MapService {
         })
       }).addTo(this.userLayer);
       L.circle(e.latlng, {radius: this.userRange}).addTo(this.userLayer).addTo(this.userLayer);
-    });
+    }});
     this.userLayer.addTo(map);
 
   }
@@ -194,10 +197,10 @@ export class MapService {
     });
   }
 
-  addMarker(e): void{
+  /*addMarker(e): void{
     // Add marker to map at click location; add popup window
     var newMarker = new L.marker(e).addTo(Map);
-    }
+    }*/
   
 
   
