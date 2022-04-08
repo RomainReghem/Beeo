@@ -13,22 +13,28 @@
       Rayon de butinage : <span #number>{{ n }}</span> mètres ({{pMsg}})
     </p>
     <div id="slideButtonsContainer">
-    <button (click)="activateMarkers()"><img src="../../assets/marker.png"><span>{{markerMsg}}</span></button>
-    <button (click)="reset()"><img src="../../assets/cross.png">Reset</button>
-  </div>
+      <button [ngClass] = [btnStyle] (click)="activateMarkers()"><img src="../../assets/marker.png"><span>{{markerMsg}}</span></button>
+      <button (click)="reset()"><img src="../../assets/cross.png">Reset</button>
+    </div>
   </div><br>
   <h3>Sélection des calques</h3>
 
   <input #layer1 (click)="layer1check()" type="checkbox" id="layer1" name="layer1" value="bio" />
   <label for="layer1">Zones bios</label><br />
   <p class="LayerDescription">
-    Correspond aux parcelles en Agriculture Biologique (AB) déclarées à la PAC
+    Correspond aux parcelles en Agriculture Biologique (AB) déclarées à la PAC<br>
+    <a href="https://www.data.gouv.fr/en/reuses/geographie-de-lagriculture-biologique-en-france/"
+      target="_blank">Source</a>
   </p>
+
+
 
   <input #layer4 (click)="layer4check()" type="checkbox" id="layer4" name="layer4" value="ferms" />
   <label for="layer4">Fermes Bio</label><br />
   <p class="LayerDescription">
     Correspond aux fermes bio avec leur emplacement exact
+    <br />
+    <a href="https://annuaire.agencebio.org/" target="_blank">Source</a>
   </p>
 
   <input #layer2 (click)="layer2check()" type="checkbox" id="layer2" name="layer2" value="indus" />
@@ -36,6 +42,8 @@
   <p class="LayerDescription">
     Correspond aux sites et sols pollués (ou potentiellement pollués) appelant
     une action des pouvoirs publics, à titre préventif ou curatif (ex BASOL).
+    <br />
+    <a href="https://www.georisques.gouv.fr/" target="_blank">Source</a>
   </p>
   <input #layer3 (click)="layer3check()" type="checkbox" id="layer3" name="layer3" value="insectes" />
   <label for="layer3">Installations industrielles</label><br />
@@ -43,6 +51,8 @@
     Correspond aux Installations classées pour la protection de l'environnement
     (ICPE) soumises à autorisation ou à enregistrement (en construction, en
     fonctionnement ou en cessation d'activité)
+    <br />
+    <a href="https://www.georisques.gouv.fr/" target="_blank">Source</a>
   </p>
 
   <input #layer5 (click)="layer5check()" type="checkbox" id="layer5" name="layer5" value="Rivers" />
@@ -50,6 +60,8 @@
   <p class="LayerDescription">
     Correspond aux qualité des rivières avec l'emplacement de la station de
     mesure.
+    <br />
+    <a href="http://adour-garonne.eaufrance.fr/" target="_blank">Source</a>
   </p>
 
   <button id="questionnaire" (click)="formDisplay()">Afficher le questionnaire</button>

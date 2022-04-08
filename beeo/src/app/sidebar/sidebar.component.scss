@@ -81,7 +81,6 @@ button img {
   border: 1px solid transparent;
   border-radius: 2px;
   line-height: 34px;
-  background-color: #eafadd;
   transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
   margin: 5px;
 
@@ -145,4 +144,21 @@ button img {
   background-color: #eafadd;
   transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;
   margin: 5px;
+}
+
+a:link {
+  color: #b1bdf5;
+}
+
+a:visited {
+  color: #b1bdf5;
+}
+
+.activated{
+  background-color: #eafadd;
+
+}
+
+.deactivated{
+  background-color: #b1bbac;
 }

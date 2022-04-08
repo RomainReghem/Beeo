@@ -12,6 +12,8 @@ export class SidebarComponent {
   n:number = 3000;
   markerMsg:string = "Activer les marqueurs"
   pMsg:string = "Les marqueurs sont désactivés"
+  btnStyle: string = "deactivated";
+  
 
   constructor(private mapService: MapService){}
   @ViewChild('layer1') layer1: ElementRef | undefined;
@@ -60,10 +62,12 @@ export class SidebarComponent {
     if (this.markerMsg == "Activer les marqueurs") {   
     this.markerMsg = "Désactiver les marqueurs"
     this.pMsg = "Cliquez sur la carte pour placer une zone de ce rayon"
+    this.btnStyle = "activated"
   }
     else{
     this.markerMsg = "Activer les marqueurs"
     this.pMsg = "Les marqueurs sont désactivés"
+    this.btnStyle = "deactivated"
     }
 
   }
